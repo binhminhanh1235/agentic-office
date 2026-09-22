@@ -2,6 +2,9 @@ use anyhow::Result;
 use clap::{Parser, ValueEnum};
 use tracing_subscriber::EnvFilter;
 
+mod domain;
+mod policy;
+
 #[derive(Debug, Clone, ValueEnum)]
 enum Transport {
     Stdio,
@@ -32,8 +35,8 @@ async fn main() -> Result<()> {
     let args = Args::parse();
     tracing::info!(?args.transport, ?args.workspace, %args.http_bind, "starting Agentic Office MCP foundation");
 
-    // Transport servers and domain services are intentionally introduced behind
-    // explicit modules in subsequent milestones. This entrypoint currently
-    // validates configuration and provides a stable executable boundary.
+    // Protocol transports and concrete document services are introduced in
+    // subsequent milestones. Domain and policy modules are now explicit so
+    // transport implementations can share the same safety contracts.
     Ok(())
 }
